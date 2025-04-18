@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <link rel="stylesheet" href="styles.css">
+<head>
+  <meta charset="UTF-8">
+  <title>Site de K4dvalka</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Police depuis Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee+Spice&family=Poetsen+One&display=swap" rel="stylesheet">
+
+  <!-- Style interne -->
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poetsen One", sans-serif;
+      background: linear-gradient(to right, #00c6ff, #f9d423);
+    }
+
+    .container {
+      text-align: center;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.25em;
+      margin-bottom: 20px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    iframe {
+      width: 110%;
+      height: 600px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      -moz-box-align: center;
+    }
+  </style>
+</head>
+.
+<body>
+
+  <div class="container">
+    <h1>Bienvenue sur mon site</h1>
+    <h1>Ici est présente la nouvelle vidéo de la semaine</h1>
+    <h2>si il est écrit "chargement de la vidéo", attendez svp</h2>
+    <div id="video-container">
+      <p>Chargement de la dernière vidéo...</p>
+    </div>
+  </div>
+
+  <script>
+    const apiKey = 'AIzaSyAy9VrHxVKMYg8r4tkF8SUAtTY4p1Ho1-c'; // Ta clé API
+    const channelId = 'UCkR0E3pPQCzDFnmAkqCgxaQ'; // ID de ta chaîne
+
+    const videoContainer = document.getElementById('video-container');
+
+    fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet&order=date&maxResults=1`)
+      .then(response => response.json())
+      .then(data => {
+        const videoId = data.items[0].id.videoId;
+        videoContainer.innerHTML = `
+          <iframe 
+            src="https://www.youtube.com/embed/${videoId}" 
+            title="Dernière vidéo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>`;
+      })
+      .catch(error => {
+        videoContainer.innerHTML = "<p>Impossible de charger la vidéo 😢</p>";
+        console.error('Erreur API YouTube:', error);
+      });
+  </script>
+
+</body>
+</html>
